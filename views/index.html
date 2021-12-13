@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Issue Tracker</title>
+  <link rel="icon" type="image/png" href="https://cdn.freecodecamp.org/universal/favicons/favicon-16x16.png" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+  <header>
+    <h1 id="pageHeader">
+      Issue Tracker
+    </h1>
+    <hr>
+    <h2 id="apitest">API Tests</h2>
+    <div id="pageLinks">
+      <a class="pagelink" href='#testForm'>Post Isssue</a>
+      <a class="pagelink" href='#testForm2'>Update Issue</a>
+      <a class="pagelink" href='#testForm3'>Delete Issue</a>
+    </div>
+    <hr>
+    <code id='jsonResult'></code>
+    <hr>
+    <section id='testui'>
+      <h3>Submit issue on <i>apitest</i></h3>
+      <form id="testForm" class="border">
+        <input class="testFormInputs" type="text" name="issue_title" placeholder="*Title" required=''><br>
+        <textarea class="testFormInputs" type="text" name="issue_text" placeholder="*Text" required=''
+          style="height: 90px; resize: none;"></textarea><br>
+        <input class="testFormInputs" type="text" name="created_by" placeholder="*Created by" required=''><br>
+        <input class="testFormInputs" type="text" name="assigned_to" placeholder="(optional)Assigned to"><br>
+        <input class="testFormInputs" type="text" name="status_text" placeholder="(optional)Status text"><br>
+        <hr />
+        <button type="submit">Submit Issue</button>
+      </form><br>
+      <h3>Update issue on <i>apitest</i> (Change any or all to update issue on the _id supplied)</h3>
+      <form id="testForm2" class="border">
+        <input class="testFormInputs" type="text" name="_id" placeholder="*_id" required=''><br>
+        <input class="testFormInputs" type="text" name="issue_title" placeholder="(opt)Title"><br>
+        <textarea class="testFormInputs" type="text" name="issue_text" placeholder="(opt)Text"
+          style="height: 90px; resize: none;"></textarea><br>
+        <input class="testFormInputs" type="text" name="created_by" placeholder="(opt)Created by"><br>
+        <input class="testFormInputs" type="text" name="assigned_to" placeholder="(opt)Assigned to"><br>
+        <input class="testFormInputs" type="text" name="status_text" placeholder="(opt)Status text"><br>
+        <label><input type="checkbox" name="open" value="false"> Check to close issue</label><br>
+        <hr />
+        <button type="submit">Update Issue</button>
+      </form><br>
+      <h3>Delete issue on <i>apitest</i></h3>
+      <form id="testForm3" class="border">
+        <input class="testFormInputs" type="text" name="_id" placeholder="_id" required=''><br>
+        <hr />
+        <button type="submit">Delete Issue</button>
+      </form>
+      <hr>
+    </section>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+      integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+    <script>
+      $(function () {
+        $('#testForm').submit(function (e) {
+          $.ajax({
+            url: '/api/issues/apitest',
+            type: 'post',
+            data: $('#testForm').serialize(),
+            success: function (data) {
+              $('#jsonResult').text(JSON.stringify(data));
+            }
+          });
+          e.preventDefault();
+        });
+        $('#testForm2').submit(function (e) {
+          $.ajax({
+            url: '/api/issues/apitest',
+            type: 'put',
+            data: $('#testForm2').serialize(),
+            success: function (data) {
+              $('#jsonResult').text(JSON.stringify(data));
+            }
+          });
+          e.preventDefault();
+        });
+        $('#testForm3').submit(function (e) {
+          $.ajax({
+            url: '/api/issues/apitest',
+            type: 'delete',
+            data: $('#testForm3').serialize(),
+            success: function (data) {
+              $('#jsonResult').text(JSON.stringify(data));
+            }
+          });
+          e.preventDefault();
+        });
+      });
+    </script>
+</body>
+
+</html>
