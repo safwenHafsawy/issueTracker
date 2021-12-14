@@ -98,16 +98,9 @@ const deleteIssue = (req, res) => {
     return res.status(200).json({ error: "missing _id" });
   const { _id } = req.body;
   issueModel
-    .findById(_id)
+    .deleteOne({ _id: _id })
     .then(() => {
-      issueModel
-        .deleteOne({ _id: _id })
-        .then(() => {
-          res.json({ result: "successfully deleted", _id: _id });
-        })
-        .catch(() => {
-          res.json({ error: "could not delete", _id: _id });
-        });
+      res.json({ result: "successfully deleted", _id: _id });
     })
     .catch(() => res.json({ error: "could not delete", _id: _id }));
 };
