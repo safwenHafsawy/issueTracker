@@ -98,11 +98,22 @@ const deleteIssue = (req, res) => {
     return res.status(200).json({ error: "missing _id" });
   const { _id } = req.body;
   issueModel
-    .deleteOne({ _id: _id })
-    .then(() => {
-      res.json({ result: "successfully deleted", _id: _id });
+    .findById(_id)
+    .then((record) => {
+      if (record === null)
+        return res.json({ error: "could not delete", _id: _id });
+      issueModel
+        .deleteOne({ _id: _id })
+        .then(() => {
+          return res.json({ result: "successfully deleted", _id: _id });
+        })
+        .catch(() => {
+          return res.json({ error: "could not delete", _id: _id });
+        });
     })
-    .catch(() => res.json({ error: "could not delete", _id: _id }));
+    .catch(() => {
+      return res.json({ error: "could not delete", _id: _id });
+    });
 };
 
 module.exports = { createIssue, fetchAllIssues, updateIssue, deleteIssue };
